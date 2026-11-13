@@ -30,9 +30,11 @@ export function initQuiz(
   const restartBtn = document.querySelector("#quizRestartBtn") as HTMLButtonElement;
   const backToMissionsBtn = document.querySelector("#quizBackBtn") as HTMLButtonElement;
   const confettiCanvas = document.querySelector("#quizConfetti") as HTMLCanvasElement;
+  const filterPills = document.querySelectorAll<HTMLButtonElement>("#quizFilterBar .filter-pill");
 
   const confetti = createConfetti(confettiCanvas);
 
+  let activeDomain = 0; // 0 = all domains
   let currentIdx = 0;
   let selectedOption: number | null = null;
   let answered = false;
@@ -40,8 +42,28 @@ export function initQuiz(
   // Initialize quiz state if not present
   state.quiz = state.quiz || { score: 0, passed: false, answers: {} };
 
+  function getActiveQuestions(): QuizQuestion[] {
+    if (activeDomain === 0) return CLF_QUIZ_QUESTIONS;
+    return CLF_QUIZ_QUESTIONS.filter((q) => q.domainId === activeDomain);
+  }
+
+  // Set up domain filter buttons
+  filterPills.forEach((pill) => {
+    pill.onclick = () => {
+      filterPills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      activeDomain = Number(pill.getAttribute("data-domain") || "0");
+      currentIdx = 0;
+      renderQuestion();
+    };
+  });
+
   function renderQuestion(): void {
-    const q: QuizQuestion = CLF_QUIZ_QUESTIONS[currentIdx];
+    const questions = getActiveQuestions();
+    if (questions.length === 0) return;
+    if (currentIdx >= questions.length) currentIdx = 0;
+
+    const q: QuizQuestion = questions[currentIdx];
     questionView.hidden = false;
     resultsView.hidden = true;
     rationaleBox.hidden = true;
@@ -51,11 +73,11 @@ export function initQuiz(
     selectedOption = null;
     answered = false;
 
-    questionNumberEl.textContent = `Pregunta ${currentIdx + 1} de ${CLF_QUIZ_QUESTIONS.length}`;
+    questionNumberEl.textContent = `Pregunta ${currentIdx + 1} de ${questions.length}`;
     domainBadgeEl.textContent = q.domainName;
     questionTextEl.textContent = q.question;
 
-    const progressPct = Math.round(((currentIdx) / CLF_QUIZ_QUESTIONS.length) * 100);
+    const progressPct = Math.round(((currentIdx) / questions.length) * 100);
     progressBar.style.width = `${progressPct}%`;
     scoreBadge.textContent = `${calculateCurrentScore()} pts`;
 
@@ -98,7 +120,10 @@ export function initQuiz(
   function evaluateAnswer(isLiveAction = true): void {
     if (selectedOption === null) return;
     answered = true;
-    const q: QuizQuestion = CLF_QUIZ_QUESTIONS[currentIdx];
+    const questions = getActiveQuestions();
+    const q: QuizQuestion = questions[currentIdx];
+    if (!q) return;
+
     const isCorrect = selectedOption === q.correctIndex;
     const buttons = optionsContainerEl.querySelectorAll<HTMLButtonElement>(".quiz-option");
 
@@ -136,7 +161,7 @@ export function initQuiz(
     submitBtn.hidden = true;
     nextBtn.hidden = false;
 
-    if (currentIdx === CLF_QUIZ_QUESTIONS.length - 1) {
+    if (currentIdx === questions.length - 1) {
       nextBtn.textContent = "Ver Resultados Finales 📊";
     } else {
       nextBtn.textContent = "Siguiente Pregunta ➜";
@@ -181,12 +206,12 @@ export function initQuiz(
     const answers = state.quiz?.answers || {};
     let correctTotal = 0;
 
-    // Breakdown by domain
+    // Breakdown by official AWS domains
     const domainStats: Record<number, { name: string; total: number; correct: number }> = {
       1: { name: "Dominio 1: Conceptos Cloud (24%)", total: 0, correct: 0 },
       2: { name: "Dominio 2: Seguridad & IAM (30%)", total: 0, correct: 0 },
-      3: { name: "Dominio 3: Tecnología & Servicios (34%)", total: 0, correct: 0 },
-      4: { name: "Dominio 4: Costes & Gobernanza (12%)", total: 0, correct: 0 },
+      3: { name: "Dominio 3: Tecnología & Servicios Core (34%)", total: 0, correct: 0 },
+      4: { name: "Dominio 4: Facturación, Precios & Soporte (12%)", total: 0, correct: 0 },
     };
 
     for (const q of CLF_QUIZ_QUESTIONS) {
@@ -216,13 +241,13 @@ export function initQuiz(
           ${passed ? "🏆 APTO / CERTIFICADO APROBADO" : "⚠️ NO APTO (REQUERIDO: 700+)"}
         </div>
         <h2>${score} / 1000 Puntos</h2>
-        <p class="reasons">Has acertado <b>${correctTotal}</b> de <b>${CLF_QUIZ_QUESTIONS.length}</b> preguntas del examen oficial CLF-C02.</p>
-        
+        <p class="reasons">Has acertado <b>${correctTotal}</b> de <b>${CLF_QUIZ_QUESTIONS.length}</b> preguntas del simulador oficial CLF-C02.</p>
+
         <div class="domain-breakdown">
           <h3>Rendimiento por Dominio Oficial de AWS</h3>
           ${Object.values(domainStats)
             .map((ds) => {
-              const pct = Math.round((ds.correct / ds.total) * 100);
+              const pct = ds.total > 0 ? Math.round((ds.correct / ds.total) * 100) : 0;
               return `
                 <div class="domain-row">
                   <div class="d-info"><span>${ds.name}</span><b>${ds.correct}/${ds.total} (${pct}%)</b></div>
@@ -264,7 +289,8 @@ export function initQuiz(
   submitBtn.onclick = () => evaluateAnswer(true);
 
   nextBtn.onclick = () => {
-    if (currentIdx < CLF_QUIZ_QUESTIONS.length - 1) {
+    const questions = getActiveQuestions();
+    if (currentIdx < questions.length - 1) {
       currentIdx++;
       renderQuestion();
     } else {
