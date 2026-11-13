@@ -42,6 +42,12 @@ export interface LevelStatus {
   firstTry?: boolean;
 }
 
+export interface QuizState {
+  score: number;
+  passed: boolean;
+  answers: Record<string, { selected: number; correct: boolean }>;
+}
+
 export interface GameState {
   xp: number;
   coins: number;
@@ -51,6 +57,7 @@ export interface GameState {
   streak: number;
   bestStreak: number;
   commands: Record<string, string>;
+  quiz?: QuizState;
 }
 
 export interface Achievement {

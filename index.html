@@ -54,6 +54,7 @@
     <div class="pill" title="Créditos Cloud">🪙 <span id="coins">0</span></div>
     <div class="pill" title="Estrellas">⭐ <span id="stars">0</span></div>
     <div class="pill btn" id="achBtn" title="Logros">🏆 <span id="achCount">0</span></div>
+    <button class="ghost quiz-trigger" id="quizBtn" type="button" title="Test Oficial Cloud Practitioner">📝 Test de Examen</button>
     <button class="ghost" id="hallBtn" type="button">Ranking</button>
     <button class="ghost" id="resetBtn" title="Reiniciar progreso">↺ Reiniciar</button>
   </div>
@@ -116,12 +117,59 @@
   </main>
 </div>
 
+<!-- Victory Overlay -->
 <div class="overlay" id="winOverlay"><canvas id="confetti"></canvas><div class="modal" id="winModal"></div></div>
+
+<!-- Achievements Overlay -->
 <div class="overlay" id="achOverlay"><div class="modal" style="max-width:760px">
   <h2>🏆 Logros Cloud</h2><div class="reasons" id="achSummary"></div>
   <div class="ach-grid" id="achGrid"></div>
   <div class="row"><button class="b b-check" id="closeAch">Cerrar</button></div>
 </div></div>
+
+<!-- Exam Simulator Overlay -->
+<div class="overlay" id="quizOverlay">
+  <canvas id="quizConfetti"></canvas>
+  <div class="quiz-modal">
+    <div class="quiz-header">
+      <div class="quiz-title-wrap">
+        <h2>🎓 Simulador de Examen: AWS Cloud Practitioner (CLF-C02)</h2>
+        <div class="quiz-meta-row">
+          <span class="badge-cert">CLF-C02 Oficial</span>
+          <span class="badge-world" id="quizDomain">Dominio 1</span>
+          <span class="kbd" id="quizNum">Pregunta 1 de 20</span>
+          <span class="quiz-score-pill" id="quizScoreBadge">100 pts</span>
+        </div>
+      </div>
+      <button class="ghost close-quiz-btn" id="closeQuizBtn" type="button" title="Cerrar test">✕</button>
+    </div>
+
+    <div class="quiz-progress-track">
+      <div class="quiz-progress-fill" id="quizProgressBar"></div>
+    </div>
+
+    <!-- Question View -->
+    <div id="quizQuestionView">
+      <div class="quiz-question-card">
+        <p class="quiz-question-text" id="quizQuestionText"></p>
+        <div class="quiz-options-grid" id="quizOptions"></div>
+      </div>
+
+      <div class="quiz-rationale" id="quizRationale" hidden></div>
+
+      <div class="quiz-footer-toolbar">
+        <button class="b b-check" id="quizSubmitBtn" disabled>✔ Confirmar Respuesta</button>
+        <button class="b b-next" id="quizNextBtn" hidden>Siguiente Pregunta ➜</button>
+        <button class="ghost" id="quizRestartBtn" type="button">Reiniciar Test</button>
+        <button class="ghost" id="quizBackBtn" type="button">Volver a Misiones</button>
+      </div>
+    </div>
+
+    <!-- Results View -->
+    <div id="quizResultsView" hidden></div>
+  </div>
+</div>
+
 <div class="toasts" id="toasts"></div>
 </div>
 <script type="module" src="/src/main.ts"></script>

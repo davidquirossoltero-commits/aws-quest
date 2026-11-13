@@ -6,14 +6,14 @@ export const ACHIEVEMENTS: Achievement[] = [
     title: "Identidad Asegurada",
     icon: "🛡️",
     description: "Verifica tu cuenta y configura identidades de IAM.",
-    check: (state: GameState) => Boolean(state.levels["0"] || state.levels["1"]),
+    check: (state: GameState) => Boolean(state.levels["0"] || state.levels["2"]),
   },
   {
     id: "ach-s3",
     title: "Guardián de S3",
     icon: "🪣",
     description: "Aplica el bloqueo total de acceso público en un bucket S3.",
-    check: (state: GameState) => Boolean(state.levels["5"]),
+    check: (state: GameState) => Boolean(state.levels["6"]),
   },
   {
     id: "ach-lambda",
@@ -59,6 +59,20 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: "🪙",
     description: "Acumula 150 créditos en tu cuenta cloud.",
     check: (state: GameState) => state.coins >= 150,
+  },
+  {
+    id: "ach-quiz-pass",
+    title: "Practitioner Aprobado",
+    icon: "🎓",
+    description: "Aprueba el Simulador de Examen Oficial CLF-C02 con un 70% o más.",
+    check: (state: GameState) => Boolean(state.quiz?.passed),
+  },
+  {
+    id: "ach-quiz-master",
+    title: "Candidato Sobresaliente",
+    icon: "💯",
+    description: "Obtén 900 puntos o más en el Simulador de Examen.",
+    check: (state: GameState) => Boolean((state.quiz?.score ?? 0) >= 900),
   },
 ];
 

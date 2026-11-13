@@ -121,6 +121,12 @@ export function sanitizeState(input) {
   const ach = Array.isArray(input.ach)
     ? input.ach.filter((id) => typeof id === "string" && /^[a-z0-9_-]{1,30}$/.test(id)).slice(0, 30)
     : [];
+  const rawQuiz = input.quiz && typeof input.quiz === "object" ? input.quiz : {};
+  const quiz = {
+    score: whole(rawQuiz.score, 1000),
+    passed: Boolean(rawQuiz.passed),
+    answers: rawQuiz.answers && typeof rawQuiz.answers === "object" ? rawQuiz.answers : {},
+  };
   return {
     xp: whole(input.xp, 1_000_000),
     coins: whole(input.coins, 1_000_000),
@@ -130,6 +136,7 @@ export function sanitizeState(input) {
     streak: whole(input.streak, 1000),
     bestStreak: whole(input.bestStreak, 1000),
     commands,
+    quiz,
   };
 }
 

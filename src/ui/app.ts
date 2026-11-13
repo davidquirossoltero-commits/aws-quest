@@ -5,6 +5,7 @@ import { doneCount, isUnlocked, starString, totalStars } from "../engine/progres
 import { getNextRank, getRank } from "../engine/ranks";
 import type { GameState, Level } from "../engine/types";
 import { createConfetti } from "./confetti";
+import { initQuiz } from "./quiz";
 
 export interface AppOptions {
   initial: GameState;
@@ -30,6 +31,7 @@ export function startApp({ initial, onSave, onHall }: AppOptions): void {
   const coinsEl = must<HTMLElement>("#coins");
   const starsEl = must<HTMLElement>("#stars");
   const achCountEl = must<HTMLElement>("#achCount");
+  const quizBtn = must<HTMLButtonElement>("#quizBtn");
   const hallBtn = must<HTMLButtonElement>("#hallBtn");
   const resetBtn = must<HTMLButtonElement>("#resetBtn");
   const mapBtn = must<HTMLButtonElement>("#mapBtn");
@@ -380,6 +382,9 @@ export function startApp({ initial, onSave, onHall }: AppOptions): void {
       toast("Progreso reiniciado correctamente.");
     }
   };
+
+  const quizController = initQuiz(state, onSave, updateHeader, toast);
+  quizBtn.onclick = () => quizController.open();
 
   achBtn.onclick = showAchievementsModal;
   closeAchBtn.onclick = () => achOverlay.classList.remove("show");
