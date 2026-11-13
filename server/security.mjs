@@ -15,6 +15,7 @@ export const RANKS = [
 const ACCOUNTS = [
   { username: "Wesked", name: "Wesked", env: "QUEST_PASSWORD_WESKED" },
   { username: "Flisin", name: "Flisin", env: "QUEST_PASSWORD_FLISIN" },
+  { username: "Aidi", name: "Aidi", env: "QUEST_PASSWORD_AIDI" },
 ];
 
 export function rankInfo(xp) {
