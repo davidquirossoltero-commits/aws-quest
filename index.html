@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AWS Quest · Desafío Cloud</title>
+  <title>AWS Quest · Certificación Cloud Practitioner</title>
   <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
 <div id="gate">
   <section class="card gate-card" id="loginPanel">
-    <div class="logo"><span class="cloud-icon">☁️</span><span>AWS Quest</span></div>
+    <div class="logo">
+      <span class="cloud-icon">☁️</span>
+      <span class="title">AWS Quest</span>
+      <span class="cert-pill">Practitioner</span>
+    </div>
     <h2>Entra para jugar</h2>
-    <p class="reasons">Bienvenido al simulador de ingeniería y arquitectura en Amazon Web Services. Introduce tu usuario y contraseña para acceder.</p>
+    <p class="reasons">Bienvenido al simulador de preparación para la certificación oficial <b>AWS Certified Cloud Practitioner (CLF-C02)</b>. Introduce tu usuario y contraseña para acceder.</p>
     <form class="login-form" id="loginForm">
       <label>Usuario<input id="loginUser" name="username" autocomplete="username" required maxlength="32"></label>
       <label>Contraseña<input id="loginPass" name="password" type="password" autocomplete="current-password" required maxlength="200"></label>
@@ -35,11 +39,15 @@
 
 <div id="game" hidden>
 <header>
-  <div class="logo"><span class="cloud-icon">☁️</span><span>AWS Quest</span></div>
+  <div class="logo">
+    <span class="cloud-icon">☁️</span>
+    <span class="title">AWS Quest</span>
+    <span class="cert-pill">CLF-C02</span>
+  </div>
   <a class="ghost portal-link" id="portalLink" href="/">← Volver a Juegos</a>
-  <button class="ghost map-toggle" id="mapBtn" type="button" aria-expanded="false" aria-controls="map">Misiones</button>
+  <button class="ghost map-toggle" id="mapBtn" type="button" aria-expanded="false" aria-controls="map">Temario</button>
   <div class="rank">
-    <div class="rank-top"><span>Rango: <b id="rankName">—</b></span><span id="xpTxt">0 XP</span></div>
+    <div class="rank-top"><span>Certificación: <b id="rankName">—</b></span><span id="xpTxt">0 XP</span></div>
     <div class="bar"><div id="xpBar"></div></div>
   </div>
   <div class="stats">
@@ -47,7 +55,7 @@
     <div class="pill" title="Estrellas">⭐ <span id="stars">0</span></div>
     <div class="pill btn" id="achBtn" title="Logros">🏆 <span id="achCount">0</span></div>
     <button class="ghost" id="hallBtn" type="button">Ranking</button>
-    <button class="ghost" id="resetBtn" title="Borrar todo el progreso">↺ Reiniciar</button>
+    <button class="ghost" id="resetBtn" title="Reiniciar progreso">↺ Reiniciar</button>
   </div>
 </header>
 
@@ -56,18 +64,23 @@
   <main>
     <section class="card" id="lessonCard">
       <div class="lesson-top">
-        <div class="lvl-head"><span class="badge-world" id="lvlWorld"></span><span class="kbd" id="lvlNum"></span></div>
+        <div class="lvl-head">
+          <span class="badge-cert" id="lvlCert">AWS Cloud Practitioner</span>
+          <span class="badge-world" id="lvlWorld"></span>
+          <span class="kbd" id="lvlNum"></span>
+        </div>
         <h2 id="lvlTitle"></h2>
         <div class="story" id="lvlStory"></div>
       </div>
       <div class="lesson-learn">
-        <div class="section-t">📘 Arquitectura Cloud</div>
+        <div class="section-t">📘 Concepto de Examen Oficial</div>
         <div class="explain" id="lvlExplain"></div>
-        <div class="section-t">Ejemplo CLI</div>
+        <div class="exam-tip-box" id="lvlExamTip"></div>
+        <div class="section-t">Sintaxis CLI</div>
         <pre class="example" id="lvlExample"></pre>
       </div>
       <div class="lesson-mission">
-        <div class="section-t">🎯 Misión</div>
+        <div class="section-t">🎯 Misión Práctica</div>
         <div class="mission" id="lvlMission"></div>
         <div class="rewards" id="lvlRewards"></div>
         <div class="hintbox" id="hintBox"></div>
@@ -91,7 +104,7 @@
       <div class="toolbar">
         <button class="b b-run" id="runBtn">▶ Ejecutar</button>
         <button class="b b-check" id="checkBtn">✔ Comprobar misión</button>
-        <button class="b b-hint" id="hintBtn">💡 Pista</button>
+        <button class="b b-hint" id="hintBtn">💡 Tip de Examen</button>
         <button class="b b-reset" id="resetCodeBtn">⟲ Comando inicial</button>
         <button class="b b-next" id="nextBtn" style="display:none">Siguiente nivel ➜</button>
       </div>

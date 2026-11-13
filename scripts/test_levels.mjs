@@ -58,21 +58,21 @@ function parseAwsCommand(input) {
 }
 
 const solutions = [
-  { lvl: 1, cmd: "aws sts get-caller-identity" },
-  { lvl: 2, cmd: "aws iam create-user --user-name dev-alice" },
-  { lvl: 3, cmd: "aws iam create-role --role-name LambdaExecutionRole --assume-role-policy-document file://trust-policy.json" },
-  { lvl: 4, cmd: "aws iam attach-user-policy --user-name dev-alice --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess" },
-  { lvl: 5, cmd: "aws s3 mb s3://empresa-logs-seguros --region eu-west-1" },
-  { lvl: 6, cmd: "aws s3api put-public-access-block --bucket empresa-logs-seguros --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" },
-  { lvl: 7, cmd: "aws s3 cp backup.tar.gz s3://empresa-logs-seguros/backup.tar.gz --storage-class STANDARD_IA" },
+  { lvl: 1, cmd: "aws ec2 describe-availability-zones --region eu-west-1" },
+  { lvl: 2, cmd: "aws cloudfront list-distributions" },
+  { lvl: 3, cmd: "aws sts get-caller-identity" },
+  { lvl: 4, cmd: "aws iam create-user --user-name dev-alice" },
+  { lvl: 5, cmd: "aws iam create-role --role-name LambdaExecutionRole --assume-role-policy-document file://trust-policy.json" },
+  { lvl: 6, cmd: "aws iam attach-user-policy --user-name dev-alice --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess" },
+  { lvl: 7, cmd: "aws s3api put-public-access-block --bucket empresa-datos-seguros --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true" },
   { lvl: 8, cmd: "aws ec2 run-instances --image-id ami-0c55b159cbfafe1f0 --instance-type t3.micro --key-name cloud-key" },
   { lvl: 9, cmd: "aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 --protocol tcp --port 443 --cidr 0.0.0.0/0" },
   { lvl: 10, cmd: "aws lambda create-function --function-name procesar-pedidos --runtime nodejs20.x --role arn:aws:iam::123456789012:role/LambdaExecutionRole --handler index.handler --zip-file fileb://function.zip" },
   { lvl: 11, cmd: "aws ec2 create-vpc --cidr-block 10.0.0.0/16" },
-  { lvl: 12, cmd: "aws cloudfront create-distribution --origin-domain-name empresa-logs-seguros.s3.amazonaws.com --default-root-object index.html" },
+  { lvl: 12, cmd: "aws s3 cp backup.tar.gz s3://empresa-datos-seguros/backup.tar.gz --storage-class STANDARD_IA" },
 ];
 
-console.log(`Running validation verification across all ${solutions.length} levels...`);
+console.log(`Running validation across all ${solutions.length} Cloud Practitioner levels...`);
 
 for (const s of solutions) {
   const p = parseAwsCommand(s.cmd);
@@ -82,4 +82,4 @@ for (const s of solutions) {
   console.log(`✔ Level ${s.lvl} (${p.service} ${p.operation}) solution verified!`);
 }
 
-console.log("\nAll 12 AWS Quest levels verified successfully! 🎉");
+console.log("\nAll 12 AWS Cloud Practitioner levels verified successfully! ☁️🎓");

@@ -20,8 +20,11 @@ export interface Level {
   number: number;
   title: string;
   service: string;
+  certification: string;
+  domain: string;
   story: string;
   explanation: string;
+  examTip: string;
   example: string;
   mission: string;
   hint: string;

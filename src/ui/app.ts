@@ -36,11 +36,13 @@ export function startApp({ initial, onSave, onHall }: AppOptions): void {
   const mapAside = must<HTMLElement>("#map");
 
   // Lesson elements
+  const lvlCertEl = must<HTMLElement>("#lvlCert");
   const lvlWorldEl = must<HTMLElement>("#lvlWorld");
   const lvlNumEl = must<HTMLElement>("#lvlNum");
   const lvlTitleEl = must<HTMLElement>("#lvlTitle");
   const lvlStoryEl = must<HTMLElement>("#lvlStory");
   const lvlExplainEl = must<HTMLElement>("#lvlExplain");
+  const lvlExamTipEl = must<HTMLElement>("#lvlExamTip");
   const lvlExampleEl = must<HTMLElement>("#lvlExample");
   const lvlMissionEl = must<HTMLElement>("#lvlMission");
   const lvlRewardsEl = must<HTMLElement>("#lvlRewards");
@@ -155,14 +157,16 @@ export function startApp({ initial, onSave, onHall }: AppOptions): void {
     const level = LEVELS[idx];
     const world = WORLDS.find((w) => w.id === level.worldId);
 
-    lvlWorldEl.textContent = world?.name ?? "AWS Quest";
+    lvlCertEl.textContent = level.certification;
+    lvlWorldEl.textContent = world?.name ?? "Dominio";
     lvlNumEl.textContent = `Nivel ${level.number} de ${LEVELS.length}`;
     lvlTitleEl.textContent = level.title;
     lvlStoryEl.textContent = level.story;
     lvlExplainEl.textContent = level.explanation;
+    lvlExamTipEl.innerHTML = `<b>💡 Tip de Examen CLF-C02:</b> ${level.examTip}`;
     lvlExampleEl.textContent = level.example;
     lvlMissionEl.innerHTML = `<b>Misión:</b> ${level.mission}`;
-    lvlRewardsEl.innerHTML = `<span>+${level.rewards.xp} XP</span> <span>+${level.rewards.coins} Monedas</span>`;
+    lvlRewardsEl.innerHTML = `<span>+${level.rewards.xp} XP</span> <span>+${level.rewards.coins} Créditos</span>`;
 
     hintBoxEl.style.display = "none";
     hintBoxEl.textContent = `💡 ${level.hint}`;
@@ -293,7 +297,7 @@ export function startApp({ initial, onSave, onHall }: AppOptions): void {
         ${
           currentIdx < LEVELS.length - 1
             ? `<button class="b b-next" id="winNextBtn">Siguiente Nivel ➜</button>`
-            : `<button class="b b-check" id="winNextBtn">¡Has completado AWS Quest! 🏆</button>`
+            : `<button class="b b-check" id="winNextBtn">¡Has completado AWS Cloud Practitioner! 🏆</button>`
         }
         <button class="ghost" id="winCloseBtn">Quedarme aquí</button>
       </div>

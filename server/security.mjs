@@ -4,12 +4,12 @@ import { promisify } from "node:util";
 const scryptAsync = promisify(scrypt);
 
 export const RANKS = [
-  { xp: 0, name: "Novato en la Nube", icon: "🌱" },
-  { xp: 120, name: "Practicante Cloud", icon: "☁️" },
-  { xp: 300, name: "Administrador SysOps", icon: "🛠️" },
-  { xp: 600, name: "Desarrollador Serverless", icon: "⚡" },
-  { xp: 1000, name: "Arquitecto de Soluciones", icon: "🏛️" },
-  { xp: 1500, name: "Maestro Cloud DevOps", icon: "🚀" },
+  { xp: 0, name: "Iniciación Cloud", icon: "🌱" },
+  { xp: 100, name: "AWS Cloud Practitioner", icon: "☁️" },
+  { xp: 350, name: "Solutions Architect Associate", icon: "🏛️" },
+  { xp: 650, name: "SysOps Administrator Associate", icon: "⚙️" },
+  { xp: 1000, name: "Developer Associate", icon: "💻" },
+  { xp: 1500, name: "Solutions Architect Professional", icon: "👑" },
 ];
 
 const ACCOUNTS = [
