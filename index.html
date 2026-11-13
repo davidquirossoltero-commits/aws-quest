@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AWS Quest · Desafío Cloud</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+<div id="gate">
+  <section class="card gate-card" id="loginPanel">
+    <div class="logo"><span class="cloud-icon">☁️</span><span>AWS Quest</span></div>
+    <h2>Entra para jugar</h2>
+    <p class="reasons">Bienvenido al simulador de ingeniería y arquitectura en Amazon Web Services. Introduce tu usuario y contraseña para acceder.</p>
+    <form class="login-form" id="loginForm">
+      <label>Usuario<input id="loginUser" name="username" autocomplete="username" required maxlength="32"></label>
+      <label>Contraseña<input id="loginPass" name="password" type="password" autocomplete="current-password" required maxlength="200"></label>
+      <p id="loginError" class="login-error" role="alert" hidden></p>
+      <button class="b b-check" id="loginBtn" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <section class="card gate-card" id="lobby" hidden>
+    <div class="lobby-head">
+      <h2>Ranking AWS Quest</h2>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a class="ghost portal-link" id="lobbyPortalLink" href="/">← Volver a Juegos</a>
+        <button class="ghost" id="logoutBtn" type="button">Salir</button>
+      </div>
+    </div>
+    <p id="lobbyHello" class="reasons"></p>
+    <div id="ranking"></div>
+  </section>
+</div>
+
+<div id="game" hidden>
+<header>
+  <div class="logo"><span class="cloud-icon">☁️</span><span>AWS Quest</span></div>
+  <a class="ghost portal-link" id="portalLink" href="/">← Volver a Juegos</a>
+  <button class="ghost map-toggle" id="mapBtn" type="button" aria-expanded="false" aria-controls="map">Misiones</button>
+  <div class="rank">
+    <div class="rank-top"><span>Rango: <b id="rankName">—</b></span><span id="xpTxt">0 XP</span></div>
+    <div class="bar"><div id="xpBar"></div></div>
+  </div>
+  <div class="stats">
+    <div class="pill" title="Créditos Cloud">🪙 <span id="coins">0</span></div>
+    <div class="pill" title="Estrellas">⭐ <span id="stars">0</span></div>
+    <div class="pill btn" id="achBtn" title="Logros">🏆 <span id="achCount">0</span></div>
+    <button class="ghost" id="hallBtn" type="button">Ranking</button>
+    <button class="ghost" id="resetBtn" title="Borrar todo el progreso">↺ Reiniciar</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="map"></aside>
+  <main>
+    <section class="card" id="lessonCard">
+      <div class="lesson-top">
+        <div class="lvl-head"><span class="badge-world" id="lvlWorld"></span><span class="kbd" id="lvlNum"></span></div>
+        <h2 id="lvlTitle"></h2>
+        <div class="story" id="lvlStory"></div>
+      </div>
+      <div class="lesson-learn">
+        <div class="section-t">📘 Arquitectura Cloud</div>
+        <div class="explain" id="lvlExplain"></div>
+        <div class="section-t">Ejemplo CLI</div>
+        <pre class="example" id="lvlExample"></pre>
+      </div>
+      <div class="lesson-mission">
+        <div class="section-t">🎯 Misión</div>
+        <div class="mission" id="lvlMission"></div>
+        <div class="rewards" id="lvlRewards"></div>
+        <div class="hintbox" id="hintBox"></div>
+      </div>
+    </section>
+
+    <section class="card" id="codeCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b>💻 AWS CloudShell Terminal</b>
+        <div class="status"><span class="dot ready"></span><span>AWS CLI v2.15</span></div>
+      </div>
+      <div class="editor-wrap">
+        <div class="terminal-header">
+          <span class="terminal-dot r"></span>
+          <span class="terminal-dot y"></span>
+          <span class="terminal-dot g"></span>
+          <span style="margin-left:8px">admin@aws-cloudshell:~$</span>
+        </div>
+        <textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="Escribe aquí tu comando de AWS CLI..."></textarea>
+      </div>
+      <div class="toolbar">
+        <button class="b b-run" id="runBtn">▶ Ejecutar</button>
+        <button class="b b-check" id="checkBtn">✔ Comprobar misión</button>
+        <button class="b b-hint" id="hintBtn">💡 Pista</button>
+        <button class="b b-reset" id="resetCodeBtn">⟲ Comando inicial</button>
+        <button class="b b-next" id="nextBtn" style="display:none">Siguiente nivel ➜</button>
+      </div>
+      <div class="result" id="result"></div>
+      <div class="kbd" style="margin-bottom:8px">Atajos: <code>Ctrl+Enter</code> ejecutar · <code>Ctrl+Shift+Enter</code> comprobar</div>
+      <div class="section-t" style="margin-top:4px">Salida de la consola</div>
+      <div class="console" id="console"><span class="muted">Escribe un comando y pulsa "▶ Ejecutar" o "✔ Comprobar misión"...</span></div>
+    </section>
+  </main>
+</div>
+
+<div class="overlay" id="winOverlay"><canvas id="confetti"></canvas><div class="modal" id="winModal"></div></div>
+<div class="overlay" id="achOverlay"><div class="modal" style="max-width:760px">
+  <h2>🏆 Logros Cloud</h2><div class="reasons" id="achSummary"></div>
+  <div class="ach-grid" id="achGrid"></div>
+  <div class="row"><button class="b b-check" id="closeAch">Cerrar</button></div>
+</div></div>
+<div class="toasts" id="toasts"></div>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
